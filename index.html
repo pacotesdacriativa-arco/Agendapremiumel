@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda Premium</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Arial,sans-serif;
+background:linear-gradient(180deg,#dbb6ee,#ffd6ec,#FF55A1);
+color:#5b1745;
+min-height:100vh;
+overflow-x:hidden;
+}
+
+.hidden{display:none!important}
+
+.container{
+max-width:480px;
+margin:auto;
+padding:22px;
+min-height:100vh;
+}
+
+.topo{
+text-align:center;
+padding:28px 10px;
+}
+
+.logoCircle{
+width:105px;
+height:105px;
+border-radius:50%;
+border:3px solid white;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:auto;
+box-shadow:0 0 30px rgba(255,85,161,.45);
+background:linear-gradient(135deg,#FF55A1,#dbb6ee);
+}
+
+h1{
+margin-top:18px;
+font-size:34px;
+color:#c90076;
+}
+
+.sub{
+margin-top:8px;
+color:#7a2857;
+font-weight:bold;
+}
+
+.card{
+background:rgba(255,255,255,.90);
+border:1px solid rgba(255,255,255,.80);
+border-radius:30px;
+padding:22px;
+margin-top:20px;
+box-shadow:0 14px 35px rgba(255,85,161,.22);
+}
+
+label{
+display:block;
+margin-top:14px;
+font-weight:bold;
+color:#7a2857;
+}
+
+input,select,textarea{
+width:100%;
+padding:15px;
+margin-top:7px;
+border-radius:18px;
+border:1px solid #e8a3d4;
+background:#fff7fb;
+color:#5b1745;
+font-size:15px;
+}
+
+textarea{
+height:90px;
+resize:none;
+}
+
+button{
+border:none;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btn{
+width:100%;
+padding:16px;
+margin-top:18px;
+border-radius:20px;
+background:linear-gradient(135deg,#FF55A1,#dbb6ee);
+color:white;
+font-size:16px;
+box-shadow:0 10px 25px rgba(255,85,161,.35);
+}
+
+.btn2{
+width:100%;
+padding:16px;
+margin-top:14px;
+border-radius:20px;
+background:white;
+border:2px solid #FF55A1;
+color:#c90076;
+font-size:16px;
+}
+
+.servicoBox{
+display:flex;
+align-items:center;
+gap:10px;
+background:#fff7fb;
+border:1px solid #e8a3d4;
+padding:12px;
+border-radius:16px;
+margin-top:10px;
+}
+
+.servicoBox input{
+width:22px;
+height:22px;
+margin:0;
+accent-color:#FF55A1;
+}
+
+.servicoBox span{
+flex:1;
+line-height:1.4;
+}
+
+.total{
+text-align:center;
+font-size:26px;
+font-weight:bold;
+margin-top:18px;
+color:#c90076;
+}
+
+.agenda{
+background:#fff7fb;
+border-left:5px solid #FF55A1;
+padding:14px;
+border-radius:18px;
+margin-top:12px;
+line-height:1.8;
+color:#5b1745;
+}
+
+.delete{
+margin-top:10px;
+background:#c90076;
+color:white;
+padding:10px 14px;
+border-radius:12px;
+}
+
+footer{
+text-align:center;
+font-size:12px;
+margin-top:25px;
+color:#7a2857;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div id="inicio">
+<div class="container">
+
+<div class="topo">
+<div class="logoCircle">
+<svg width="52" height="52" viewBox="0 0 24 24" fill="white">
+<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+2 5.42 4.42 3 7.5 3
+9.24 3 10.91 3.81 12 5.09
+13.09 3.81 14.76 3 16.5 3
+19.58 3 22 5.42 22 8.5
+22 12.28 18.6 15.36 13.45 20.04
+L12 21.35z"/>
+</svg>
+</div>
+
+<h1>Agenda Premium</h1>
+<p class="sub">Agende seu horário de forma rápida e prática</p>
+</div>
+
+<div class="card">
+<button class="btn" onclick="abrirAgenda()">Abrir Agenda</button>
+<button class="btn2" onclick="abrirLogin()">Designer</button>
+</div>
+
+</div>
+</div>
+
+<div id="agendaCliente" class="hidden">
+<div class="container">
+
+<div class="topo">
+<div class="logoCircle">
+<svg width="52" height="52" viewBox="0 0 24 24" fill="white">
+<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+2 5.42 4.42 3 7.5 3
+9.24 3 10.91 3.81 12 5.09
+13.09 3.81 14.76 3 16.5 3
+19.58 3 22 5.42 22 8.5
+22 12.28 18.6 15.36 13.45 20.04
+L12 21.35z"/>
+</svg>
+</div>
+
+<h1>Agendar Horário</h1>
+<p class="sub">Selecione um ou mais serviços</p>
+</div>
+
+<div class="card">
+
+<label>Serviços</label>
+<div id="servicos"></div>
+
+<div class="total" id="total">Total: R$0,00</div>
+
+<label>Escolha a data</label>
+<input type="date" id="data">
+
+<label>Escolha o horário</label>
+<select id="hora"></select>
+
+<label>Nome da cliente</label>
+<input type="text" id="nome" placeholder="Digite seu nome">
+
+<label>Número da cliente</label>
+<input type="text" id="telefone" placeholder="Digite seu WhatsApp">
+
+<label>Observação</label>
+<textarea id="obs" placeholder="Ex: decoração, cor, manutenção, preferência..."></textarea>
+
+<button class="btn" onclick="enviarWhats()">Confirmar no WhatsApp</button>
+<button class="btn2" onclick="voltarInicio()">Voltar</button>
+
+</div>
+
+<footer>Agenda Premium</footer>
+</div>
+</div>
+
+<div id="login" class="hidden">
+<div class="container">
+
+<div class="topo">
+<div class="logoCircle">
+<svg width="52" height="52" viewBox="0 0 24 24" fill="white">
+<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+2 5.42 4.42 3 7.5 3
+9.24 3 10.91 3.81 12 5.09
+13.09 3.81 14.76 3 16.5 3
+19.58 3 22 5.42 22 8.5
+22 12.28 18.6 15.36 13.45 20.04
+L12 21.35z"/>
+</svg>
+</div>
+
+<h1>Área Designer</h1>
+<p class="sub">Acesso privado</p>
+</div>
+
+<div class="card">
+<label>Senha</label>
+<input type="password" id="senha">
+
+<button class="btn" onclick="entrarPainel()">Entrar</button>
+<button class="btn2" onclick="voltarInicio()">Voltar</button>
+</div>
+
+</div>
+</div>
+
+<div id="painel" class="hidden">
+<div class="container">
+
+<div class="topo">
+<div class="logoCircle">
+<svg width="52" height="52" viewBox="0 0 24 24" fill="white">
+<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+2 5.42 4.42 3 7.5 3
+9.24 3 10.91 3.81 12 5.09
+13.09 3.81 14.76 3 16.5 3
+19.58 3 22 5.42 22 8.5
+22 12.28 18.6 15.36 13.45 20.04
+L12 21.35z"/>
+</svg>
+</div>
+
+<h1>Agenda Designer</h1>
+<p class="sub">Controle de agendamentos</p>
+</div>
+
+<div class="card">
+<label>Nome da cliente</label>
+<input type="text" id="nomePainel">
+
+<label>Telefone</label>
+<input type="text" id="fonePainel">
+
+<label>Serviço</label>
+<input type="text" id="servicoPainel">
+
+<label>Data</label>
+<input type="date" id="dataPainel">
+
+<label>Horário</label>
+<input type="time" id="horaPainel">
+
+<label>Observação</label>
+<textarea id="obsPainel"></textarea>
+
+<button class="btn" onclick="salvarAgenda()">Salvar agendamento</button>
+</div>
+
+<div class="card">
+<h2 style="text-align:center;color:#c90076;">Agendamentos</h2>
+<div id="listaAgenda"></div>
+
+<button class="btn2" onclick="voltarInicio()">Sair</button>
+</div>
+
+<footer>Agenda Premium</footer>
+</div>
+</div>
+
+<script>
+let numero="5527997824259";
+
+const listaServicos=[
+{nome:"Pé e mão", valor:50},
+{nome:"Pé e mão comum", valor:35},
+{nome:"Esfoliação + lixamento", valor:15},
+{nome:"Spa dos pés", valor:70},
+{nome:"Aplicação de gel na tip", valor:100},
+{nome:"Aplicação de fibra de vidro ou molde F1", valor:140},
+{nome:"Banho de gel", valor:80},
+{nome:"Blindagem", valor:50},
+{nome:"Esmaltação em gel", valor:70},
+{nome:"Manutenção gel na tip", valor:90},
+{nome:"Manutenção fibra de vidro ou molde F1", valor:120},
+{nome:"Remoção de alongamento", valor:50},
+{nome:"Reposição de unha", valor:15},
+{nome:"Reconstrução de unha", valor:15},
+{nome:"Decoração com adesivo (par)", valor:5}
+];
+
+let agenda=JSON.parse(localStorage.getItem("agendaPremiumRosaLilas"))||[];
+
+function dinheiro(v){
+return Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+}
+
+function esconderTudo(){
+document.getElementById("inicio").classList.add("hidden");
+document.getElementById("agendaCliente").classList.add("hidden");
+document.getElementById("login").classList.add("hidden");
+document.getElementById("painel").classList.add("hidden");
+}
+
+function voltarInicio(){
+esconderTudo();
+document.getElementById("inicio").classList.remove("hidden");
+}
+
+function abrirAgenda(){
+esconderTudo();
+document.getElementById("agendaCliente").classList.remove("hidden");
+}
+
+function abrirLogin(){
+esconderTudo();
+document.getElementById("login").classList.remove("hidden");
+}
+
+function montarServicos(){
+let box=document.getElementById("servicos");
+box.innerHTML="";
+
+listaServicos.forEach((s,i)=>{
+box.innerHTML+=`
+<label class="servicoBox">
+<input type="checkbox" value="${i}" onchange="calcularTotal()">
+<span>${s.nome} - ${dinheiro(s.valor)}</span>
+</label>`;
+});
+}
+
+function montarHorarios(){
+let select=document.getElementById("hora");
+select.innerHTML="";
+
+let hora=8;
+let minuto=0;
+
+while(hora<20 || (hora===20 && minuto===0)){
+let h=String(hora).padStart(2,"0");
+let m=String(minuto).padStart(2,"0");
+select.innerHTML+=`<option>${h}:${m}</option>`;
+
+minuto+=30;
+if(minuto>=60){
+minuto=0;
+hora++;
+}
+}
+}
+
+function servicosSelecionados(){
+let checks=document.querySelectorAll("#servicos input:checked");
+let escolhidos=[];
+
+checks.forEach(c=>{
+escolhidos.push(listaServicos[Number(c.value)]);
+});
+
+return escolhidos;
+}
+
+function calcularTotal(){
+let total=servicosSelecionados().reduce((s,item)=>s+item.valor,0);
+document.getElementById("total").innerText="Total: "+dinheiro(total);
+}
+
+function enviarWhats(){
+let escolhidos=servicosSelecionados();
+let data=document.getElementById("data").value;
+let hora=document.getElementById("hora").value;
+let nome=document.getElementById("nome").value;
+let telefone=document.getElementById("telefone").value;
+let obs=document.getElementById("obs").value;
+
+if(escolhidos.length===0){
+alert("Selecione pelo menos um serviço.");
+return;
+}
+
+if(!nome||!telefone||!data){
+alert("Preencha nome, telefone e data.");
+return;
+}
+
+let total=escolhidos.reduce((s,item)=>s+item.valor,0);
+let lista=escolhidos.map(s=>`- ${s.nome}: ${dinheiro(s.valor)}`).join("\n");
+
+let mensagem=
+`Olá!
+
+Gostaria de solicitar um agendamento:
+
+Nome: ${nome}
+Telefone: ${telefone}
+
+Serviços:
+${lista}
+
+Total: ${dinheiro(total)}
+
+Data: ${data}
+Horário: ${hora}
+
+Observação: ${obs || "Nenhuma"}
+
+Aguardo confirmação.`;
+
+window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`,"_blank");
+}
+
+function entrarPainel(){
+let senha=document.getElementById("senha").value;
+
+if(senha==="230517"){
+esconderTudo();
+document.getElementById("painel").classList.remove("hidden");
+mostrarAgenda();
+}else{
+alert("Senha incorreta.");
+}
+}
+
+function salvarStorage(){
+localStorage.setItem("agendaPremiumRosaLilas",JSON.stringify(agenda));
+}
+
+function salvarAgenda(){
+let nome=document.getElementById("nomePainel").value;
+let telefone=document.getElementById("fonePainel").value;
+let servico=document.getElementById("servicoPainel").value;
+let data=document.getElementById("dataPainel").value;
+let hora=document.getElementById("horaPainel").value;
+let obs=document.getElementById("obsPainel").value;
+
+if(!nome||!data||!hora){
+alert("Preencha nome, data e horário.");
+return;
+}
+
+agenda.push({nome,telefone,servico,data,hora,obs});
+salvarStorage();
+
+document.getElementById("nomePainel").value="";
+document.getElementById("fonePainel").value="";
+document.getElementById("servicoPainel").value="";
+document.getElementById("dataPainel").value="";
+document.getElementById("horaPainel").value="";
+document.getElementById("obsPainel").value="";
+
+mostrarAgenda();
+}
+
+function excluir(index){
+agenda.splice(index,1);
+salvarStorage();
+mostrarAgenda();
+}
+
+function mostrarAgenda(){
+let lista=document.getElementById("listaAgenda");
+lista.innerHTML="";
+
+if(agenda.length===0){
+lista.innerHTML="<p style='text-align:center;color:#7a2857;'>Nenhum horário anotado ainda.</p>";
+return;
+}
+
+agenda.slice().reverse().forEach((a,index)=>{
+let real=agenda.length-1-index;
+
+lista.innerHTML+=`
+<div class="agenda">
+<strong>${a.nome}</strong><br>
+Telefone: ${a.telefone || "-"}<br>
+Serviço: ${a.servico || "-"}<br>
+Data: ${a.data}<br>
+Horário: ${a.hora}<br>
+Observação: ${a.obs || "-"}
+<button class="delete" onclick="excluir(${real})">Excluir</button>
+</div>`;
+});
+}
+
+montarServicos();
+montarHorarios();
+calcularTotal();
+</script>
+
+</body>
+</html>
